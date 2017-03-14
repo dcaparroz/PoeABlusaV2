@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">PoeABlusa</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="logar">Logar</string>
+    <string name="manter_logado">manter logado</string>
+    <string name="digite_sua_senha">digite sua senha</string>
+    <string name="senha">Senha</string>
+    <string name="digite_seu_login">digite seu login</string>
+    <string name="login">Login</string>
+</resources>
