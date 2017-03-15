@@ -62,11 +62,12 @@ public class TemperaturaDao {
     }
 
         public Temperatura getBy(int id){
-        SQLiteDatabase db= banco.getReadableDatabase();
-        String colunas[] ={COLUNA_ID ,COLUNA_frio, COLUNA_calor,COLUNA_chuva};
-        String where = "id= "+id;
-        Cursor cursor = db.query(true, TABELA_TEMPERATURAS, colunas, where, null, null,
-                null, null, null);
+
+            String rawQuery = "SELECT * FROM " +
+                    TemperaturaDao.TABELA_TEMPERATURAS  +
+                    " WHERE id=" + id;
+            SQLiteDatabase db = banco.getReadableDatabase();
+            Cursor cursor = db.rawQuery(rawQuery, null);
 
          Temperatura temperatura =null;
 
@@ -74,13 +75,15 @@ public class TemperaturaDao {
             {
              cursor.moveToFirst();
              temperatura = new Temperatura();
-             temperatura.setId(cursor.getInt(cursor.getColumnIndex(COLUNA_ID)));
-             temperatura.setCalor(cursor.getInt(cursor.getColumnIndex(COLUNA_calor)));
-             temperatura.setChuva(cursor.getInt(cursor.getColumnIndex(COLUNA_chuva)));
-             temperatura.setFrio(cursor.getInt(cursor.getColumnIndex(COLUNA_frio)));
+             temperatura.setId(cursor.getInt(cursor.getInt(0)));
+             temperatura.setCalor(cursor.getInt(cursor.getInt(2)));
+             temperatura.setChuva(cursor.getInt(cursor.getInt(3)));
+             temperatura.setFrio(cursor.getInt(cursor.getInt(1)));
             }
             return temperatura;
     }
 
+    public TemperaturaDao() {
+    }
 }
 

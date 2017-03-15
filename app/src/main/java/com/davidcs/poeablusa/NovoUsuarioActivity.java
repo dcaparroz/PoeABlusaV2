@@ -66,7 +66,8 @@ public class NovoUsuarioActivity extends AppCompatActivity {
         }else{
             retornarParaTelaAnterior();
         }
-        usuario.setPeriodo((Periodo)spPeriodo.getSelectedItem());
+
+        usuario.setPeriodo((Periodo) spPeriodo.getSelectedItem());
         usuario.setTemperatura(temperatura);
         usuarioDao.add(usuario);
         retornarParaTelaAnterior();

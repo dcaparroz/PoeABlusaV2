@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.davidcs.poeablusa.model.Periodo;
 import com.davidcs.poeablusa.model.Temperatura;
 import com.davidcs.poeablusa.model.Usuario;
 
@@ -27,6 +28,7 @@ public class UsuarioDao {
     private static final String COLUNA_ID = "id";
     private static final String COLUNA_NOME = "nome";
     private static final String COLUNA_TEMPERATURA_ID = "temperatura_id";
+    private static final String COLUNA_PERIODO_ID = "periodo_id";
 
 
     public String add(Usuario usuario){
@@ -35,6 +37,7 @@ public class UsuarioDao {
         ContentValues values =new ContentValues();
         values.put(COLUNA_NOME,usuario.getNome());
         values.put(COLUNA_TEMPERATURA_ID, usuario.getTemperatura().getId());
+        values.put(COLUNA_PERIODO_ID,usuario.getPeriodo().getId());
         resultado =db.insert(TABELA_USUARIO, null, values);
         db.close();
         if(resultado == -1) {
@@ -46,11 +49,8 @@ public class UsuarioDao {
 
     public List<Usuario> getAll() {
         List<Usuario> usuarios = new LinkedList<>();
-        String rawQuery = "SELECT t.*,t.nome FROM " +
-                UsuarioDao.TABELA_USUARIO + " t INNER JOIN " +
-                TemperaturaDao.TABELA_TEMPERATURAS +
-                " c ON t." + UsuarioDao.COLUNA_TEMPERATURA_ID + "=c." +
-                TemperaturaDao.COLUNA_ID +
+        String rawQuery = "SELECT * FROM " +
+                UsuarioDao.TABELA_USUARIO  +
                 " ORDER BY " + UsuarioDao.COLUNA_NOME + " ASC";
         SQLiteDatabase db = banco.getReadableDatabase();
         Cursor cursor = db.rawQuery(rawQuery, null);
@@ -59,9 +59,11 @@ public class UsuarioDao {
             do {
                 usuario = new Usuario();
                 usuario.setId(cursor.getInt(0));
-                usuario.setNome(cursor.getString(1));
-                usuario.setTemperatura(new Temperatura(cursor.getInt(1),
-                        cursor.getInt(3), cursor.getInt(4), cursor.getInt(5)));
+                usuario.setNome(cursor.getString(3));
+                 TemperaturaDao tempDao = new TemperaturaDao();
+                usuario.setTemperatura(tempDao.getBy(cursor.getInt(1)));
+                PeriodoDao periodoDao= new PeriodoDao();
+                usuario.setPeriodo(periodoDao.getBy(cursor.getInt(2)));
                 usuarios.add(usuario);
             } while (cursor.moveToNext());
         }

@@ -58,6 +58,6 @@ public class PeriodoDao {
         return clube;
     }
 
-
-
+    public PeriodoDao() {
+    }
 }
