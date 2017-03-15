@@ -1,5 +1,6 @@
 package com.davidcs.poeablusa.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -42,6 +43,22 @@ public class TemperaturaDao {
             } while (cursor.moveToNext());
         }
         return temperaturas;
+    }
+        public  String add (Temperatura temp){
+            long resultado;
+            SQLiteDatabase db=banco.getWritableDatabase();
+            ContentValues values =new ContentValues();
+            values.put(COLUNA_frio,temp.getFrio());
+            values.put(COLUNA_calor,temp.getCalor());
+            values.put(COLUNA_chuva,temp.getChuva());
+            resultado =db.insert(TABELA_TEMPERATURAS, null, values);
+            db.close();
+            if(resultado == -1) {
+                return "Erro ao inserir registro";
+            } else {
+                String id = String.valueOf(temp.getId());
+                return id;
+            }
     }
 
         public Temperatura getBy(int id){

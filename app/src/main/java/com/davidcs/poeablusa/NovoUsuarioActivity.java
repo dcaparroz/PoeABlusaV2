@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.davidcs.poeablusa.dao.PeriodoDao;
+import com.davidcs.poeablusa.dao.TemperaturaDao;
 import com.davidcs.poeablusa.dao.UsuarioDao;
 import com.davidcs.poeablusa.model.Periodo;
 import com.davidcs.poeablusa.model.Temperatura;
@@ -51,13 +52,21 @@ public class NovoUsuarioActivity extends AppCompatActivity {
 
     public void cadastrar(View v){
         UsuarioDao usuarioDao = new UsuarioDao(this);
+        TemperaturaDao temperaturaDao = new TemperaturaDao(this);
         Usuario usuario = new Usuario();
         usuario.setNome(tilNomeUsuario.getEditText().toString());
         Temperatura temperatura = new Temperatura(1,
-                Integer.parseInt(tilFrio.getEditText().toString()),
-                Integer.parseInt(tilCalor.getEditText().toString()),
-                Integer.parseInt(tilChuva.getEditText().toString()));
+                Integer.parseInt(tilFrio.getEditText().getText().toString()),
+                Integer.parseInt(tilCalor.getEditText().getText().toString()),
+                Integer.parseInt(tilChuva.getEditText().getText().toString()));
         temperatura.setPeriodo((Periodo)spPeriodo.getSelectedItem());
+        String idTemp =temperaturaDao.add(temperatura);
+        if(idTemp != "-1"){
+            temperatura.setId(Integer.parseInt(idTemp));
+        }else{
+            retornarParaTelaAnterior();
+        }
+        usuario.setPeriodo((Periodo)spPeriodo.getSelectedItem());
         usuario.setTemperatura(temperatura);
         usuarioDao.add(usuario);
         retornarParaTelaAnterior();

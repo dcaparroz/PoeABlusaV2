@@ -1,6 +1,6 @@
 
 CREATE TABLE temperatura(
-    id integer NOT NULL PRIMARY KEY,
+    id integer NOT NULL PRIMARY KEY AUTOINCREMENT,
     frio integer NOT NULL,
     calor integer NOT NULL,
     chuva integer NOT NULL

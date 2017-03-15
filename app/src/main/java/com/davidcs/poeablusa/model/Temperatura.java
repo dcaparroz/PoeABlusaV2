@@ -17,6 +17,17 @@ public class Temperatura {
     private Periodo periodo;
 
 
+    @Override
+    public String toString() {
+        return "Temperatura{" +
+                "id=" + id +
+                ", frio=" + frio +
+                ", calor=" + calor +
+                ", chuva=" + chuva +
+                ", periodo=" + periodo +
+                '}';
+    }
+
     public Temperatura(int id, int frio, int calor, int chuva) {
         this.id = id;
         this.frio = frio;
