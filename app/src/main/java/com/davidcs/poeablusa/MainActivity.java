@@ -16,7 +16,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.davidcs.poeablusa.dao.TemperaturaDao;
 import com.davidcs.poeablusa.dao.UsuarioDao;
+import com.davidcs.poeablusa.model.Temperatura;
 import com.davidcs.poeablusa.model.Usuario;
 
 import java.util.List;
@@ -71,19 +73,23 @@ public class MainActivity extends AppCompatActivity
 
         tvUsuarios.setText("");
         UsuarioDao usuarioDao = new UsuarioDao(this);
-        StringBuilder sb= new StringBuilder();
+        StringBuilder sb;
         List<Usuario> usuarios = usuarioDao.getAll();
-        for(Usuario t : usuarios) {sb= new StringBuilder(tvUsuarios.getText());
+        for(Usuario t : usuarios) {
+            TemperaturaDao temperaturaDao = new TemperaturaDao(this);
+            Temperatura temperatura;
+            temperatura = temperaturaDao.getBy(t.getTemperatura().getId());
+            sb= new StringBuilder(tvUsuarios.getText());
             sb.append("\n");
             sb.append(t.getNome());
             sb.append(" - ");
-            sb.append(t.getTemperatura().getFrio());
+            sb.append(temperatura.getFrio());
             sb.append(" - ");
-            sb.append(t.getTemperatura().getCalor());
+            sb.append(temperatura.getCalor());
             sb.append(" - ");
-            sb.append(t.getTemperatura().getChuva());
+            sb.append(temperatura.getChuva());
             sb.append(" - ");
-            sb.append(t.getTemperatura().getPeriodo());
+            sb.append(t.getPeriodo());
             tvUsuarios.setText(sb.toString());
         }
     }

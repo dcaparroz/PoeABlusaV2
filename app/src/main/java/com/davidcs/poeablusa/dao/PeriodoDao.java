@@ -24,7 +24,7 @@ public class PeriodoDao {
     public static final String COLUNA_PERIODO="periodo";
 
     public List<Periodo> getAll(){
-        List<Periodo> clubes = new LinkedList<>();
+        List<Periodo> periodos = new LinkedList<>();
         String query ="SELECT * FROM "+TABELA_PERIODOS;
         SQLiteDatabase db=banco.getReadableDatabase();
         Cursor cursor=db.rawQuery(query, null);
@@ -35,10 +35,10 @@ public class PeriodoDao {
                 periodo.setId(cursor.getInt(cursor.getColumnIndex(COLUNA_ID)));
 
                 periodo.setPeriodo(cursor.getString(cursor.getColumnIndex(COLUNA_PERIODO)));
-                clubes.add(periodo);
+                periodos.add(periodo);
             }while(cursor.moveToNext());
         }
-        return clubes;
+        return periodos;
     }
 
     public Periodo getBy(int id){
@@ -47,15 +47,15 @@ public class PeriodoDao {
         String where = "id = " + id;
         Cursor cursor = db.query(true, TABELA_PERIODOS, colunas, where, null, null,
                 null, null, null);
-        Periodo clube = null;
+        Periodo periodo = null;
         if(cursor != null)
         {
             cursor.moveToFirst();
-            clube = new Periodo();
-            clube.setPeriodo(cursor.getString(cursor.getColumnIndex(COLUNA_PERIODO)));
-            clube.setId(cursor.getInt(cursor.getColumnIndex(COLUNA_ID)));
+            periodo = new Periodo();
+            periodo.setPeriodo(cursor.getString(cursor.getColumnIndex(COLUNA_PERIODO)));
+            periodo.setId(cursor.getInt(cursor.getColumnIndex(COLUNA_ID)));
         }
-        return clube;
+        return periodo;
     }
 
     public PeriodoDao() {

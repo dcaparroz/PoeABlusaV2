@@ -14,7 +14,7 @@ public class Temperatura {
 
     private int chuva;
 
-    private Periodo periodo;
+    //private Periodo periodo;
 
 
     @Override
@@ -24,15 +24,22 @@ public class Temperatura {
                 ", frio=" + frio +
                 ", calor=" + calor +
                 ", chuva=" + chuva +
-                ", periodo=" + periodo +
+    //            ", periodo=" + periodo +
                 '}';
     }
 
-    public Temperatura(int id, int frio, int calor, int chuva) {
-        this.id = id;
+    public Temperatura( int frio, int calor, int chuva) {
+
         this.frio = frio;
         this.calor = calor;
         this.chuva = chuva;
+
+    }
+
+    public Temperatura(int id) {
+
+        this.id = id;
+
 
     }
 
@@ -71,11 +78,11 @@ public class Temperatura {
         this.calor = calor;
     }
 
-    public Periodo getPeriodo() {
-        return periodo;
-    }
+   // public Periodo getPeriodo() {
+  //      return periodo;
+  //  }
 
-    public void setPeriodo(Periodo periodo) {
-        this.periodo = periodo;
-    }
+   // public void setPeriodo(Periodo periodo) {
+   //     this.periodo = periodo;
+   // }
 }

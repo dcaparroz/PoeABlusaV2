@@ -20,8 +20,10 @@ public class UsuarioDao {
 
     private SQLiteDatabase db;
     private DBOpenHelper banco;
+    private Context context;
     public UsuarioDao(Context context) {
         banco = new DBOpenHelper(context);
+        this.context =context;
     }
 
     private static final String TABELA_USUARIO = "usuario";
@@ -32,6 +34,8 @@ public class UsuarioDao {
 
 
     public String add(Usuario usuario){
+        UsuarioDao dao = new UsuarioDao(context);
+
         long resultado;
         SQLiteDatabase db=banco.getWritableDatabase();
         ContentValues values =new ContentValues();
@@ -54,15 +58,14 @@ public class UsuarioDao {
                 " ORDER BY " + UsuarioDao.COLUNA_NOME + " ASC";
         SQLiteDatabase db = banco.getReadableDatabase();
         Cursor cursor = db.rawQuery(rawQuery, null);
-        Usuario usuario = null;
+        Usuario usuario;
         if (cursor.moveToFirst()) {
             do {
                 usuario = new Usuario();
                 usuario.setId(cursor.getInt(0));
                 usuario.setNome(cursor.getString(3));
-                 TemperaturaDao tempDao = new TemperaturaDao();
-                usuario.setTemperatura(tempDao.getBy(cursor.getInt(1)));
-                PeriodoDao periodoDao= new PeriodoDao();
+                usuario.setTemperatura(new Temperatura(cursor.getInt(1)));
+                PeriodoDao periodoDao= new PeriodoDao(context);
                 usuario.setPeriodo(periodoDao.getBy(cursor.getInt(2)));
                 usuarios.add(usuario);
             } while (cursor.moveToNext());

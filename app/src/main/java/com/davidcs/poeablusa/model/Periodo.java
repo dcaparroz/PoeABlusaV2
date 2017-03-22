@@ -12,9 +12,9 @@ public class Periodo {
 
     private String periodo;
 
-    public Periodo(String periodo, int id) {
+    public Periodo(String periodo) {
         this.periodo = periodo;
-        this.id = id;
+
     }
 
     @Override

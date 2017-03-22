@@ -23,6 +23,7 @@ public class TemperaturaDao {
     public static final String COLUNA_frio="frio";
     public static final String COLUNA_calor="calor";
     public static final String COLUNA_chuva="chuva";
+    public static final String COLUNA_periodo="periodo";
 
     public List<Temperatura> getAll() {
         List<Temperatura> temperaturas = new LinkedList<>();
@@ -51,34 +52,35 @@ public class TemperaturaDao {
             values.put(COLUNA_frio,temp.getFrio());
             values.put(COLUNA_calor,temp.getCalor());
             values.put(COLUNA_chuva,temp.getChuva());
-            resultado =db.insert(TABELA_TEMPERATURAS, null, values);
+            resultado = db.insert(TABELA_TEMPERATURAS, null, values);
             db.close();
             if(resultado == -1) {
                 return "Erro ao inserir registro";
             } else {
-                String id = String.valueOf(temp.getId());
+                String id = String.valueOf(resultado);
                 return id;
             }
     }
 
         public Temperatura getBy(int id){
-
+                TemperaturaDao dao =new TemperaturaDao();
             String rawQuery = "SELECT * FROM " +
-                    TemperaturaDao.TABELA_TEMPERATURAS  +
+                    TABELA_TEMPERATURAS  +
                     " WHERE id=" + id;
             SQLiteDatabase db = banco.getReadableDatabase();
             Cursor cursor = db.rawQuery(rawQuery, null);
 
          Temperatura temperatura =null;
 
-            if(cursor !=null)
+            if(cursor.moveToFirst())
             {
-             cursor.moveToFirst();
-             temperatura = new Temperatura();
-             temperatura.setId(cursor.getInt(cursor.getInt(0)));
-             temperatura.setCalor(cursor.getInt(cursor.getInt(2)));
-             temperatura.setChuva(cursor.getInt(cursor.getInt(3)));
-             temperatura.setFrio(cursor.getInt(cursor.getInt(1)));
+                do{
+                    temperatura = new Temperatura();
+                    temperatura.setId(cursor.getInt(cursor.getColumnIndex(COLUNA_ID)));
+                    temperatura.setCalor(cursor.getInt(cursor.getColumnIndex(COLUNA_calor)));
+                    temperatura.setChuva(cursor.getInt(cursor.getColumnIndex(COLUNA_chuva)));
+                    temperatura.setFrio(cursor.getInt(cursor.getColumnIndex(COLUNA_frio)));
+                } while (cursor.moveToNext());
             }
             return temperatura;
     }

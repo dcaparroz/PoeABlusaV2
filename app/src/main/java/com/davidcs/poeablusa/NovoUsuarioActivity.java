@@ -54,12 +54,12 @@ public class NovoUsuarioActivity extends AppCompatActivity {
         UsuarioDao usuarioDao = new UsuarioDao(this);
         TemperaturaDao temperaturaDao = new TemperaturaDao(this);
         Usuario usuario = new Usuario();
-        usuario.setNome(tilNomeUsuario.getEditText().toString());
-        Temperatura temperatura = new Temperatura(1,
-                Integer.parseInt(tilFrio.getEditText().getText().toString()),
-                Integer.parseInt(tilCalor.getEditText().getText().toString()),
-                Integer.parseInt(tilChuva.getEditText().getText().toString()));
-        temperatura.setPeriodo((Periodo)spPeriodo.getSelectedItem());
+        usuario.setNome(String.valueOf(tilNomeUsuario.getEditText().getText()));
+        Temperatura temperatura = new Temperatura(
+                Integer.parseInt(String.valueOf(tilFrio.getEditText().getText())),
+                Integer.parseInt(String.valueOf(tilCalor.getEditText().getText())),
+                Integer.parseInt(String.valueOf(tilChuva.getEditText().getText())));
+     //   usuario.setPeriodo((Periodo)spPeriodo.getSelectedItem());
         String idTemp =temperaturaDao.add(temperatura);
         if(idTemp != "-1"){
             temperatura.setId(Integer.parseInt(idTemp));
