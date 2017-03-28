@@ -5,9 +5,13 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.davidcs.poeablusa.dao.PeriodoDao;
 import com.davidcs.poeablusa.dao.TemperaturaDao;
@@ -21,7 +25,10 @@ import java.util.List;
 
 public class NovoUsuarioActivity extends AppCompatActivity {
     public static int CODE_NOVO_USUARIO= 1002;
+
     private TextInputLayout tilNomeUsuario;
+    private SeekBar seekbar;
+    private TextView textView;
     private TextInputLayout tilFrio;
     private TextInputLayout tilCalor;
     private TextInputLayout tilChuva;
@@ -33,6 +40,9 @@ public class NovoUsuarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_novo_usuario);
 
+        seekbar =(SeekBar) findViewById(R.id.skBar);
+      //  textView.setText("Covered: " + seekbar.getProgress() + "/" + seekbar.getMax());
+
         tilNomeUsuario =(TextInputLayout)findViewById(R.id.tilNomeUsuario);
         tilFrio =(TextInputLayout)findViewById(R.id.tilFrio);
         tilCalor =(TextInputLayout)findViewById(R.id.tilCalor);
@@ -43,12 +53,50 @@ public class NovoUsuarioActivity extends AppCompatActivity {
         PeriodoDao periodoDao = new PeriodoDao(this);
         periodos = periodoDao.getAll();
 
+        // Inicia a seek
+
+    //    textView.setText("Covered: " + seekbar.getProgress() + "/" + seekbar.getMax());
+        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            int progress = 0;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                progress = progresValue;
+                Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                Toast.makeText(getApplicationContext(), "Started tracking seekbar", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+   //             textView.setText("Covered: " + progress + "/" + seekBar.getMax());
+               Toast.makeText(getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+          //Termina seek
+
+
         ArrayAdapter<Periodo> adapter = new ArrayAdapter<Periodo>(getApplicationContext(),
                 R.layout.periodo_spinner_item,periodos);
         adapter.setDropDownViewResource(R.layout.periodo_spinner_item);
         spPeriodo.setAdapter(adapter);
 
     }
+
+
+    // A private method to help us initialize our variables.
+
+    private void initializeVariables() {
+        seekbar = (SeekBar) findViewById(R.id.skBar);
+        textView = (TextView) findViewById(R.id.textView);
+    }
+
 
     public void cadastrar(View v){
         UsuarioDao usuarioDao = new UsuarioDao(this);
