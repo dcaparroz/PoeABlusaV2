@@ -27,9 +27,7 @@ public class NovoUsuarioActivity extends AppCompatActivity {
     public static int CODE_NOVO_USUARIO= 1002;
 
     private TextInputLayout tilNomeUsuario;
-    private SeekBar seekbar;
-    private TextView textView;
-    private TextInputLayout tilFrio;
+      private TextInputLayout tilFrio;
     private TextInputLayout tilCalor;
     private TextInputLayout tilChuva;
     private Spinner spPeriodo;
@@ -39,9 +37,6 @@ public class NovoUsuarioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_novo_usuario);
-
-        seekbar =(SeekBar) findViewById(R.id.skBar);
-      //  textView.setText("Covered: " + seekbar.getProgress() + "/" + seekbar.getMax());
 
         tilNomeUsuario =(TextInputLayout)findViewById(R.id.tilNomeUsuario);
         tilFrio =(TextInputLayout)findViewById(R.id.tilFrio);
@@ -53,33 +48,6 @@ public class NovoUsuarioActivity extends AppCompatActivity {
         PeriodoDao periodoDao = new PeriodoDao(this);
         periodos = periodoDao.getAll();
 
-        // Inicia a seek
-
-    //    textView.setText("Covered: " + seekbar.getProgress() + "/" + seekbar.getMax());
-        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-            int progress = 0;
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
-                progress = progresValue;
-                Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(getApplicationContext(), "Started tracking seekbar", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-   //             textView.setText("Covered: " + progress + "/" + seekBar.getMax());
-               Toast.makeText(getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
-            }
-
-        });
-
-          //Termina seek
 
 
         ArrayAdapter<Periodo> adapter = new ArrayAdapter<Periodo>(getApplicationContext(),
@@ -88,15 +56,6 @@ public class NovoUsuarioActivity extends AppCompatActivity {
         spPeriodo.setAdapter(adapter);
 
     }
-
-
-    // A private method to help us initialize our variables.
-
-    private void initializeVariables() {
-        seekbar = (SeekBar) findViewById(R.id.skBar);
-        textView = (TextView) findViewById(R.id.textView);
-    }
-
 
     public void cadastrar(View v){
         UsuarioDao usuarioDao = new UsuarioDao(this);
