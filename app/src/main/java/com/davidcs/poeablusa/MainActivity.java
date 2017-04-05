@@ -71,6 +71,10 @@ public class MainActivity extends AppCompatActivity
 
     private void carregaUsuario() {
 
+        UsuarioDao tarefaDAO = new UsuarioDao(this);
+        List<Usuario> tarefas = tarefaDAO.getAll();
+        setUpTarefa(tarefas);
+
         tvUsuarios.setText("");
         UsuarioDao usuarioDao = new UsuarioDao(this);
         StringBuilder sb;

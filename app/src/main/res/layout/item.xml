@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:background="@drawable/selector_row">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/id"
+        android:layout_marginLeft="8dp"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tilNomeUsuario"
+        android:layout_toRightOf="@+id/id"
+        android:hint="nome"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tilFrio"
+        android:layout_toRightOf="@+id/tilNomeUsuario"
+        android:hint="Frio"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tilCalor"
+        android:layout_toRightOf="@+id/tilFrio"
+        android:hint="Calor"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tilChuva"
+        android:layout_toRightOf="@+id/tilCalor"
+        android:hint="Chuva"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tilPeriodo"
+        android:layout_toRightOf="@+id/tilChuva"
+        android:hint="Periodo"/>
+
+
+
+</RelativeLayout>
+
