@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.davidcs.poeablusa.adpater.ListaAndroidAdapter;
 import com.davidcs.poeablusa.dao.TemperaturaDao;
 import com.davidcs.poeablusa.dao.UsuarioDao;
 import com.davidcs.poeablusa.model.Temperatura;
@@ -26,14 +29,19 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private TextView tvUsuarios;
+   // private TextView tvUsuarios;
+    private ListaAndroidAdapter adapter;
+    private RecyclerView rvUsuarios;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        tvUsuarios = (TextView) findViewById(R.id.tvUsuarios);
+     //   tvUsuarios = (TextView) findViewById(R.id.tvUsuarios);
+        rvUsuarios =(RecyclerView) findViewById(R.id.rvUsuarios);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -71,11 +79,11 @@ public class MainActivity extends AppCompatActivity
 
     private void carregaUsuario() {
 
-        UsuarioDao tarefaDAO = new UsuarioDao(this);
-        List<Usuario> tarefas = tarefaDAO.getAll();
-        setUpTarefa(tarefas);
+        UsuarioDao usuarioDAO = new UsuarioDao(this);
+        List<Usuario> usuarios  = usuarioDAO.getAll();
+        setUpUsuario(usuarios);
 
-        tvUsuarios.setText("");
+        /*tvUsuarios.setText("");
         UsuarioDao usuarioDao = new UsuarioDao(this);
         StringBuilder sb;
         List<Usuario> usuarios = usuarioDao.getAll();
@@ -95,7 +103,7 @@ public class MainActivity extends AppCompatActivity
             sb.append(" - ");
             sb.append(t.getPeriodo());
             tvUsuarios.setText(sb.toString());
-        }
+        }*/
     }
 
 
@@ -154,5 +162,11 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void setUpUsuario(List<Usuario> lista) {
+        adapter = new ListaAndroidAdapter(this, lista);
+        rvUsuarios.setLayoutManager(new LinearLayoutManager(this));
+        rvUsuarios.setAdapter(adapter);
     }
 }

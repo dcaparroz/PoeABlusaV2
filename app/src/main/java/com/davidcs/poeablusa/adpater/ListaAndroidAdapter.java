@@ -14,13 +14,13 @@ import com.davidcs.poeablusa.model.Usuario;
  * Created by Momberg on 23/02/2017.
  */
 
-public class ListaAndroidAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class ListaAndroidAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private Context context;
     private LayoutInflater inflater;
     private List<Usuario> usuarios;
 
-    public ListaAndroidAdaper(Context context, List<Usuario> tarefas){
+    public ListaAndroidAdapter(Context context, List<Usuario> tarefas){
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.usuarios = tarefas;

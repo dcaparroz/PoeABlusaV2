@@ -13,9 +13,18 @@
     tools:context="com.davidcs.poeablusa.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rvUsuarios"
+        android:clipToPadding="false"
+        android:elevation="0dp"
+        android:paddingBottom="80dp"/>
+
+
+   <!-- <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Helo"
-        android:id="@+id/tvUsuarios"/>
+        android:id="@+id/tvUsuarios"/>-->
 </RelativeLayout>
