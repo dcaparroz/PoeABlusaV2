@@ -1,4 +1,8 @@
-
+CREATE TABLE login(
+    ind integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+    usuario varchar,
+    senha varchar
+)
 CREATE TABLE temperatura(
     id integer NOT NULL PRIMARY KEY AUTOINCREMENT,
     frio integer NOT NULL,
