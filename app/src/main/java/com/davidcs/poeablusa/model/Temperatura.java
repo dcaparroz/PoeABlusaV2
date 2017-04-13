@@ -28,7 +28,15 @@ public class Temperatura {
                 '}';
     }
 
-    public Temperatura( int frio, int calor, int chuva) {
+    public Temperatura(int id, int frio, int calor, int chuva) {
+        this.id = id;
+        this.frio = frio;
+        this.calor = calor;
+        this.chuva = chuva;
+
+    }
+
+    public Temperatura(int frio, int calor, int chuva) {
 
         this.frio = frio;
         this.calor = calor;

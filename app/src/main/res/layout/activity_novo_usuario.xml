@@ -62,10 +62,6 @@
             android:hint="Qual o nivel aceitavel para chuva"
             android:inputType="number"/>
     </android.support.design.widget.TextInputLayout>
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spPeriodo"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

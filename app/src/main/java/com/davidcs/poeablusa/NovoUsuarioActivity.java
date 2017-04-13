@@ -1,6 +1,8 @@
 package com.davidcs.poeablusa;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -25,13 +27,19 @@ import java.util.List;
 
 public class NovoUsuarioActivity extends AppCompatActivity {
     public static int CODE_NOVO_USUARIO= 1002;
+    public final static int CODE_EDITA_USUARIO = 333;
 
     private TextInputLayout tilNomeUsuario;
-      private TextInputLayout tilFrio;
+    private TextView txFrio;
+    private TextView txCalor;
+    private TextView txChuva;
+    private TextInputLayout tilFrio;
     private TextInputLayout tilCalor;
     private TextInputLayout tilChuva;
-    private Spinner spPeriodo;
-    private List<Periodo> periodos;
+    private SharedPreferences id_usuarios;
+    private int id ;
+/*    private Spinner spPeriodo;
+    private List<Periodo> periodos;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,42 +50,31 @@ public class NovoUsuarioActivity extends AppCompatActivity {
         tilFrio =(TextInputLayout)findViewById(R.id.tilFrio);
         tilCalor =(TextInputLayout)findViewById(R.id.tilCalor);
         tilChuva =(TextInputLayout)findViewById(R.id.tilChuva);
-        spPeriodo=(Spinner)findViewById(R.id.spPeriodo);
+        id_usuarios = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        id = id_usuarios.getInt("ID",0);
+        if(id != 0){
+            editar();
+        }
 
-
-        PeriodoDao periodoDao = new PeriodoDao(this);
-        periodos = periodoDao.getAll();
-
-
-
-        ArrayAdapter<Periodo> adapter = new ArrayAdapter<Periodo>(getApplicationContext(),
-                R.layout.periodo_spinner_item,periodos);
-        adapter.setDropDownViewResource(R.layout.periodo_spinner_item);
-        spPeriodo.setAdapter(adapter);
 
     }
 
     public void cadastrar(View v){
         UsuarioDao usuarioDao = new UsuarioDao(this);
-        TemperaturaDao temperaturaDao = new TemperaturaDao(this);
+
         Usuario usuario = new Usuario();
         usuario.setNome(String.valueOf(tilNomeUsuario.getEditText().getText()));
-        Temperatura temperatura = new Temperatura(
-                Integer.parseInt(String.valueOf(tilFrio.getEditText().getText())),
-                Integer.parseInt(String.valueOf(tilCalor.getEditText().getText())),
-                Integer.parseInt(String.valueOf(tilChuva.getEditText().getText())));
-     //   usuario.setPeriodo((Periodo)spPeriodo.getSelectedItem());
-        String idTemp =temperaturaDao.add(temperatura);
-        if(idTemp != "-1"){
-            temperatura.setId(Integer.parseInt(idTemp));
+        usuario.setFrio(String.valueOf(tilFrio.getEditText().getText()));
+        usuario.setCalor(String.valueOf(tilCalor.getEditText().getText()));
+        usuario.setChuva(String.valueOf(tilChuva.getEditText().getText()));
+        if(id==0) {
+            usuarioDao.add(usuario);
+            id_usuarios.edit().putInt("ID",0).apply();
+            retornaParaTelaAnteriorPosEditar();
         }else{
+            usuarioDao.editByID(usuario);
             retornarParaTelaAnterior();
         }
-
-        usuario.setPeriodo((Periodo) spPeriodo.getSelectedItem());
-        usuario.setTemperatura(temperatura);
-        usuarioDao.add(usuario);
-        retornarParaTelaAnterior();
     }
 
     private void retornarParaTelaAnterior() {
@@ -85,4 +82,21 @@ public class NovoUsuarioActivity extends AppCompatActivity {
         setResult(CODE_NOVO_USUARIO, intentMessage);
         finish();
     }
+
+    public void retornaParaTelaAnteriorPosEditar() {
+        Intent intentMessage = new Intent();
+        setResult(CODE_EDITA_USUARIO, intentMessage);
+        finish();
+    }
+
+    public void editar(){
+        UsuarioDao usuarioDao = new UsuarioDao(this);
+        Usuario usuario;
+        usuario = usuarioDao.getByID(id);
+        txFrio.setText(String.valueOf(usuario.getFrio()));
+        txCalor.setText(String.valueOf(usuario.getCalor()));
+        txChuva.setText(String.valueOf(usuario.getChuva()));
+        id_usuarios.edit().putInt("ID", 0).apply();
+    }
+
 }

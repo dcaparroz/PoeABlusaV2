@@ -1,9 +1,10 @@
 package com.davidcs.poeablusa;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,11 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.davidcs.poeablusa.adpater.ListaAndroidAdapter;
-import com.davidcs.poeablusa.dao.TemperaturaDao;
 import com.davidcs.poeablusa.dao.UsuarioDao;
-import com.davidcs.poeablusa.model.Temperatura;
 import com.davidcs.poeablusa.model.Usuario;
 
 import java.util.List;
@@ -29,9 +27,15 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-   // private TextView tvUsuarios;
+
     private ListaAndroidAdapter adapter;
     private RecyclerView rvUsuarios;
+    private FloatingActionButton fabDel;
+    private FloatingActionButton fabEdt;
+    private SharedPreferences id_usuario;
+    private int temp_id;
+    private TextView id;
+
 
 
     @Override
@@ -40,19 +44,47 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-     //   tvUsuarios = (TextView) findViewById(R.id.tvUsuarios);
+        UsuarioDao usuarioDao = new UsuarioDao(this.getApplicationContext());
+        id_usuario = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        temp_id= -1;
         rvUsuarios =(RecyclerView) findViewById(R.id.rvUsuarios);
+        fabDel = (FloatingActionButton) findViewById(R.id.fabDel);
+        fabEdt = (FloatingActionButton) findViewById(R.id.fabEdt);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                id_usuario.edit().putInt("ID",0).apply();
                 startActivityForResult(new Intent(MainActivity.this,
                                 NovoUsuarioActivity.class),
                         NovoUsuarioActivity.CODE_NOVO_USUARIO);
             }
         });
 
+        fabDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(temp_id != -1){
+                    usuarioDao.deleteByID(temp_id);
+                    carregaUsuario();
+                    fabDel.setVisibility(View.INVISIBLE);
+                    fabEdt.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        fabEdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(temp_id != -1){
+                    id_usuario.edit().putInt("ID", temp_id).apply();
+                    startActivityForResult(new Intent(MainActivity.this,
+                                    NovoUsuarioActivity.class),
+                            NovoUsuarioActivity.CODE_EDITA_USUARIO);
+                }
+            }
+        });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -63,49 +95,26 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         carregaUsuario();
+
+        ItemClickSupport.addTo(rvUsuarios).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                id = (TextView) v.findViewById(R.id.id);
+                int i = countItemSelected();
+                if(!isItemSelected() && i == 0){
+                    v.setSelected(true);
+                    temp_id = Integer.parseInt(id.getText().toString());
+                    fabDel.setVisibility(View.VISIBLE);
+                    fabEdt.setVisibility(View.VISIBLE);
+                } else if(v.isSelected()){
+                    v.setSelected(false);
+                    temp_id = -1;
+                    fabDel.setVisibility(View.INVISIBLE);
+                    fabEdt.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_CANCELED) {
-            Toast.makeText(MainActivity.this, "Cancelado",
-                    Toast.LENGTH_LONG).show();
-        } else if(requestCode == NovoUsuarioActivity.CODE_NOVO_USUARIO) {
-            carregaUsuario();
-        }
-    }
-
-    private void carregaUsuario() {
-
-        UsuarioDao usuarioDAO = new UsuarioDao(this);
-        List<Usuario> usuarios  = usuarioDAO.getAll();
-        setUpUsuario(usuarios);
-
-        /*tvUsuarios.setText("");
-        UsuarioDao usuarioDao = new UsuarioDao(this);
-        StringBuilder sb;
-        List<Usuario> usuarios = usuarioDao.getAll();
-        for(Usuario t : usuarios) {
-            TemperaturaDao temperaturaDao = new TemperaturaDao(this);
-            Temperatura temperatura;
-            temperatura = temperaturaDao.getBy(t.getTemperatura().getId());
-            sb= new StringBuilder(tvUsuarios.getText());
-            sb.append("\n");
-            sb.append(t.getNome());
-            sb.append(" - ");
-            sb.append(temperatura.getFrio());
-            sb.append(" - ");
-            sb.append(temperatura.getCalor());
-            sb.append(" - ");
-            sb.append(temperatura.getChuva());
-            sb.append(" - ");
-            sb.append(t.getPeriodo());
-            tvUsuarios.setText(sb.toString());
-        }*/
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -145,28 +154,61 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_CANCELED) {
+            Toast.makeText(MainActivity.this, "Cancelado",
+                    Toast.LENGTH_LONG).show();
+        } else if(requestCode == NovoUsuarioActivity.CODE_NOVO_USUARIO) {
+            fabDel.setVisibility(View.INVISIBLE);
+            fabEdt.setVisibility(View.INVISIBLE);
+            carregaUsuario();
+        }else if(requestCode == NovoUsuarioActivity.CODE_EDITA_USUARIO) {
+            fabDel.setVisibility(View.INVISIBLE);
+            fabEdt.setVisibility(View.INVISIBLE);
+            carregaUsuario();
+    }
+    }
+
+    private void carregaUsuario() {
+        UsuarioDao usuarioDAO = new UsuarioDao(this);
+        List<Usuario> usuarios  = usuarioDAO.getAll();
+        setUpUsuario(usuarios);
+
+    }
+
     private void setUpUsuario(List<Usuario> lista) {
         adapter = new ListaAndroidAdapter(this, lista);
         rvUsuarios.setLayoutManager(new LinearLayoutManager(this));
         rvUsuarios.setAdapter(adapter);
+    }
+
+    private boolean isItemSelected(){
+        for (int i = 0; i < rvUsuarios.getAdapter().getItemCount(); i++) {
+            if(rvUsuarios.getChildAt(i).isSelected()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int countItemSelected(){
+        int s = 0;
+        for (int i = 0; i < rvUsuarios.getAdapter().getItemCount(); i++) {
+            if(rvUsuarios.getChildAt(i).isSelected()){
+                s =+ 1;
+            }
+        }
+        return s;
     }
 }

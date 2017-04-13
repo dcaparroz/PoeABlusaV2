@@ -29,19 +29,22 @@ public class UsuarioDao {
     private static final String TABELA_USUARIO = "usuario";
     private static final String COLUNA_ID = "id";
     private static final String COLUNA_NOME = "nome";
-    private static final String COLUNA_TEMPERATURA_ID = "temperatura_id";
-    private static final String COLUNA_PERIODO_ID = "periodo_id";
+    private static final String COLUNA_FRIO = "frio";
+    private static final String COLUNA_CALOR = "calor";
+    private static final String COLUNA_CHUVA = "chuva   ";
+
 
 
     public String add(Usuario usuario){
-        UsuarioDao dao = new UsuarioDao(context);
 
         long resultado;
         SQLiteDatabase db=banco.getWritableDatabase();
         ContentValues values =new ContentValues();
         values.put(COLUNA_NOME,usuario.getNome());
-        values.put(COLUNA_TEMPERATURA_ID, usuario.getTemperatura().getId());
-        values.put(COLUNA_PERIODO_ID,usuario.getPeriodo().getId());
+        values.put(COLUNA_FRIO,usuario.getFrio());
+        values.put(COLUNA_CALOR,usuario.getCalor());
+        values.put(COLUNA_CHUVA,usuario.getChuva());
+
         resultado =db.insert(TABELA_USUARIO, null, values);
         db.close();
         if(resultado == -1) {
@@ -63,14 +66,58 @@ public class UsuarioDao {
             do {
                 usuario = new Usuario();
                 usuario.setId(cursor.getInt(0));
-                usuario.setNome(cursor.getString(3));
-                usuario.setTemperatura(new Temperatura(cursor.getInt(1)));
-                PeriodoDao periodoDao= new PeriodoDao(context);
-                usuario.setPeriodo(periodoDao.getBy(cursor.getInt(2)));
+                usuario.setNome(cursor.getString(1));
+                usuario.setFrio(cursor.getString(2));
+                usuario.setCalor(cursor.getString(3));
+                usuario.setChuva(cursor.getString(4));
                 usuarios.add(usuario);
             } while (cursor.moveToNext());
         }
         return usuarios;
     }
+
+    public void deleteByID(int id) {
+        SQLiteDatabase db = banco.getReadableDatabase();
+        db.delete(UsuarioDao.TABELA_USUARIO, "id = " + id, null);
+        db.close();
+    }
+
+    public Usuario getByID(int id){
+        SQLiteDatabase db = banco.getReadableDatabase();
+        String rawQuery = "SELECT t.*, c.nome FROM " +
+                UsuarioDao.TABELA_USUARIO+" where t.id = " + id;
+        Cursor cursor = db.rawQuery(rawQuery, null);
+        Usuario usuario = null;
+        if (cursor.moveToFirst()) {
+            do {
+                usuario = new Usuario();
+                usuario.setId(cursor.getInt(0));
+                usuario.setNome(cursor.getString(1));
+                usuario.setFrio(cursor.getString(2));
+                usuario.setCalor(cursor.getString(3));
+                usuario.setChuva(cursor.getString(4));
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return usuario;
+    }
+
+    public String editByID(Usuario usuario){
+        long resultado;
+        SQLiteDatabase db = banco.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUNA_NOME,usuario.getNome());
+        values.put(COLUNA_FRIO,usuario.getFrio());
+        values.put(COLUNA_CALOR,usuario.getCalor());
+        values.put(COLUNA_CHUVA,usuario.getChuva());
+        resultado = db.update(UsuarioDao.TABELA_USUARIO, values, " id = "+ usuario.getId(), null);
+        db.close();
+        if (resultado == -1) {
+            return "Erro ao editar registro";
+        } else {
+            return "Registro editado com sucesso";
+        }
+    }
+
 
 }

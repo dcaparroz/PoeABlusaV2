@@ -9,39 +9,53 @@
         android:id="@+id/id"
         android:layout_marginLeft="8dp"
         android:visibility="invisible"/>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nome"
+        android:layout_marginLeft="8dp"
+        android:text="Nome: " />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tilNomeUsuario"
-        android:layout_toRightOf="@+id/id"
+        android:layout_toRightOf="@+id/nome"
         android:hint="nome"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tilFrio"
+        android:id="@+id/txFrio"
         android:layout_toRightOf="@+id/tilNomeUsuario"
+        android:text="Frio: " />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tilFrio"
+        android:layout_toRightOf="@+id/txFrio"
         android:hint="Frio"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tilCalor"
+        android:id="@+id/txCalor"
         android:layout_toRightOf="@+id/tilFrio"
+        android:text="Calor: " />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tilCalor"
+        android:layout_toRightOf="@+id/txCalor"
         android:hint="Calor"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txChuva"
+        android:layout_toRightOf="@+id/tilFrio"
+        android:text="Chuva: " />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tilChuva"
         android:layout_toRightOf="@+id/tilCalor"
         android:hint="Chuva"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tilPeriodo"
-        android:layout_toRightOf="@+id/tilChuva"
-        android:hint="Periodo"/>
-
-
-
 </RelativeLayout>
 

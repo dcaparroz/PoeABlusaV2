@@ -4,9 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import java.util.List;
 import com.davidcs.poeablusa.R;
+import com.davidcs.poeablusa.model.Temperatura;
 import com.davidcs.poeablusa.model.Usuario;
 
 
@@ -20,10 +22,10 @@ public class ListaAndroidAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private LayoutInflater inflater;
     private List<Usuario> usuarios;
 
-    public ListaAndroidAdapter(Context context, List<Usuario> tarefas){
+    public ListaAndroidAdapter(Context context, List<Usuario> usuarios){
         this.context = context;
         this.inflater = LayoutInflater.from(context);
-        this.usuarios = tarefas;
+        this.usuarios = usuarios;
     }
 
     @Override
@@ -37,11 +39,10 @@ public class ListaAndroidAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         AndroidItemHolder androidItemHolder = (AndroidItemHolder) holder;
         androidItemHolder.tilNomeUsuario.setText(usuarios.get(position).getNome());
-        androidItemHolder.tilFrio.setText(usuarios.get(position).getTemperatura().getFrio());
-        androidItemHolder.tilCalor.setText(String.valueOf(usuarios.get(position).getTemperatura().getCalor()));
-        androidItemHolder.tilChuva.setText(String.valueOf(usuarios.get(position).getTemperatura().getChuva()));
-        androidItemHolder.tilPeriodo.setText(String.valueOf(usuarios.get(position).getPeriodo()));
-        androidItemHolder.id.setText(String.valueOf(usuarios.get(position).getId()));
+        androidItemHolder.tilFrio.setText(usuarios.get(position).getFrio());
+        androidItemHolder.tilCalor.setText(usuarios.get(position).getCalor());
+        androidItemHolder.tilChuva.setText(usuarios.get(position).getChuva());
+
 
     }
 
@@ -52,7 +53,9 @@ public class ListaAndroidAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private class AndroidItemHolder extends RecyclerView.ViewHolder{
 
-        TextView tilNomeUsuario, tilFrio, tilCalor, tilChuva, tilPeriodo, id;
+
+        TextView tilNomeUsuario, tilFrio, tilCalor, tilChuva, id ;
+
 
         public AndroidItemHolder(View itemView) {
             super(itemView);
@@ -62,8 +65,6 @@ public class ListaAndroidAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             tilFrio = (TextView) itemView.findViewById(R.id.tilFrio);
             tilCalor = (TextView) itemView.findViewById(R.id.tilCalor);
             tilChuva = (TextView) itemView.findViewById(R.id.tilChuva);
-
         }
     }
-
 }

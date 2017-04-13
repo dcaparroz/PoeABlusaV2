@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
 
 public class DBOpenHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME="torcedometro.db";
+    private static final String DB_NAME="clima.db";
     private static final int VERSAO_BANCO =1;
 
     private Context ctx;
@@ -34,7 +34,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         lerEExecutarSQLScript(db,ctx, R.raw.db_criar);
 
         // Insere os dados iniciais
-        lerEExecutarSQLScript(db,ctx,R.raw.insere_dados_iniciais);
+       // lerEExecutarSQLScript(db,ctx,R.raw.insere_dados_iniciais);
 
     }
 
