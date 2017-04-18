@@ -6,21 +6,23 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/id"
+        android:id="@+id/itemId"
         android:layout_marginLeft="8dp"
+        android:hint="ID"
         android:visibility="invisible"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/nome"
+        android:id="@+id/txNome"
+        android:layout_toRightOf="@+id/itemId"
         android:layout_marginLeft="8dp"
         android:text="Nome: " />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tilNomeUsuario"
-        android:layout_toRightOf="@+id/nome"
-        android:hint="nome"/>
+        android:layout_toRightOf="@+id/txNome"
+        android:text="Nome"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +34,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/tilFrio"
         android:layout_toRightOf="@+id/txFrio"
-        android:hint="Frio"/>
+        android:text="Frio"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,18 +46,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/tilCalor"
         android:layout_toRightOf="@+id/txCalor"
-        android:hint="Calor"/>
+        android:text="Calor"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txChuva"
-        android:layout_toRightOf="@+id/tilFrio"
+        android:layout_toRightOf="@+id/tilCalor"
         android:text="Chuva: " />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tilChuva"
-        android:layout_toRightOf="@+id/tilCalor"
-        android:hint="Chuva"/>
+        android:layout_toRightOf="@+id/txChuva"
+        android:text="Chuva"/>
 </RelativeLayout>
-

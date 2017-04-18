@@ -4,11 +4,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import java.util.List;
 import com.davidcs.poeablusa.R;
-import com.davidcs.poeablusa.model.Temperatura;
 import com.davidcs.poeablusa.model.Usuario;
 
 
@@ -38,6 +36,7 @@ public class ListaAndroidAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         AndroidItemHolder androidItemHolder = (AndroidItemHolder) holder;
+        androidItemHolder.itemId.setText(usuarios.get(position).getId().toString());
         androidItemHolder.tilNomeUsuario.setText(usuarios.get(position).getNome());
         androidItemHolder.tilFrio.setText(usuarios.get(position).getFrio());
         androidItemHolder.tilCalor.setText(usuarios.get(position).getCalor());
@@ -54,13 +53,13 @@ public class ListaAndroidAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private class AndroidItemHolder extends RecyclerView.ViewHolder{
 
 
-        TextView tilNomeUsuario, tilFrio, tilCalor, tilChuva, id ;
+        TextView tilNomeUsuario, tilFrio, tilCalor, tilChuva, itemId ;
 
 
         public AndroidItemHolder(View itemView) {
             super(itemView);
 
-            id = (TextView) itemView.findViewById(R.id.id);
+            itemId = (TextView) itemView.findViewById(R.id.itemId);
             tilNomeUsuario = (TextView) itemView.findViewById(R.id.tilNomeUsuario);
             tilFrio = (TextView) itemView.findViewById(R.id.tilFrio);
             tilCalor = (TextView) itemView.findViewById(R.id.tilCalor);

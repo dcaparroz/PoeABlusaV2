@@ -9,6 +9,15 @@ public class Login {
 
     private String nome;
 
+    public Login() {
+    }
+
+    public Login(String nome, String senha) {
+        this.nome = nome;
+
+        this.senha = senha;
+    }
+
     private String senha;
 
     public int getId() {

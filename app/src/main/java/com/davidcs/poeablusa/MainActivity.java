@@ -44,14 +44,15 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        UsuarioDao usuarioDao = new UsuarioDao(this.getApplicationContext());
+        final UsuarioDao usuarioDao = new UsuarioDao(this.getApplicationContext());
         id_usuario = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         temp_id= -1;
         rvUsuarios =(RecyclerView) findViewById(R.id.rvUsuarios);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fabDel = (FloatingActionButton) findViewById(R.id.fabDel);
         fabEdt = (FloatingActionButton) findViewById(R.id.fabEdt);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity
         ItemClickSupport.addTo(rvUsuarios).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                id = (TextView) v.findViewById(R.id.id);
+                id = (TextView) v.findViewById(R.id.itemId);
                 int i = countItemSelected();
                 if(!isItemSelected() && i == 0){
                     v.setSelected(true);
@@ -177,14 +178,13 @@ public class MainActivity extends AppCompatActivity
             fabDel.setVisibility(View.INVISIBLE);
             fabEdt.setVisibility(View.INVISIBLE);
             carregaUsuario();
-    }
+        }
     }
 
     private void carregaUsuario() {
         UsuarioDao usuarioDAO = new UsuarioDao(this);
         List<Usuario> usuarios  = usuarioDAO.getAll();
         setUpUsuario(usuarios);
-
     }
 
     private void setUpUsuario(List<Usuario> lista) {

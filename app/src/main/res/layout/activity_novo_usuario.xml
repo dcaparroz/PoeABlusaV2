@@ -10,7 +10,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.davidcs.poeablusa.NovoUsuarioActivity"
     android:orientation="vertical">
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nome do Usuario: "/>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,6 +21,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/edtNome"
             android:hint="Nome do Usuario"/>
     </android.support.design.widget.TextInputLayout>
      <TextView
@@ -31,6 +35,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/edtFrio"
             android:hint="Qual a temperatura para frio"
             android:inputType="number"/>
     </android.support.design.widget.TextInputLayout>
@@ -45,6 +50,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/edtCalor"
             android:hint="Qual a temperatura para calor"
             android:inputType="number"/>
     </android.support.design.widget.TextInputLayout>
@@ -59,6 +65,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/edtChuva"
             android:hint="Qual o nivel aceitavel para chuva"
             android:inputType="number"/>
     </android.support.design.widget.TextInputLayout>

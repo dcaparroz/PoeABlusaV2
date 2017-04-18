@@ -3,33 +3,26 @@ package com.davidcs.poeablusa;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.SeekBar;
-import android.widget.Spinner;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.davidcs.poeablusa.dao.PeriodoDao;
-import com.davidcs.poeablusa.dao.TemperaturaDao;
 import com.davidcs.poeablusa.dao.UsuarioDao;
-import com.davidcs.poeablusa.model.Periodo;
-import com.davidcs.poeablusa.model.Temperatura;
 import com.davidcs.poeablusa.model.Usuario;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class NovoUsuarioActivity extends AppCompatActivity {
     public static int CODE_NOVO_USUARIO= 1002;
     public final static int CODE_EDITA_USUARIO = 333;
 
     private TextInputLayout tilNomeUsuario;
+    private EditText edtNome;
+    private EditText edtFrio;
+    private EditText edtCalor;
+    private EditText edtChuva;
+    private TextView txNome;
     private TextView txFrio;
     private TextView txCalor;
     private TextView txChuva;
@@ -38,8 +31,6 @@ public class NovoUsuarioActivity extends AppCompatActivity {
     private TextInputLayout tilChuva;
     private SharedPreferences id_usuarios;
     private int id ;
-/*    private Spinner spPeriodo;
-    private List<Periodo> periodos;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,16 +38,23 @@ public class NovoUsuarioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_novo_usuario);
 
         tilNomeUsuario =(TextInputLayout)findViewById(R.id.tilNomeUsuario);
+        edtNome =(EditText)findViewById(R.id.edtNome);
+        edtFrio =(EditText)findViewById(R.id.edtFrio);
+        edtCalor =(EditText)findViewById(R.id.edtCalor);
+        edtChuva=(EditText)findViewById(R.id.edtChuva);
+        txNome =(TextView) findViewById(R.id.txNome);
         tilFrio =(TextInputLayout)findViewById(R.id.tilFrio);
+        txFrio =(TextView)findViewById(R.id.txFrio);
+        txChuva =(TextView)findViewById(R.id.txChuva);
+        txCalor =(TextView)findViewById(R.id.txCalor);
         tilCalor =(TextInputLayout)findViewById(R.id.tilCalor);
         tilChuva =(TextInputLayout)findViewById(R.id.tilChuva);
         id_usuarios = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         id = id_usuarios.getInt("ID",0);
+
         if(id != 0){
             editar();
         }
-
-
     }
 
     public void cadastrar(View v){
@@ -72,6 +70,7 @@ public class NovoUsuarioActivity extends AppCompatActivity {
             id_usuarios.edit().putInt("ID",0).apply();
             retornaParaTelaAnteriorPosEditar();
         }else{
+            usuario.setId(id);
             usuarioDao.editByID(usuario);
             retornarParaTelaAnterior();
         }
@@ -93,9 +92,10 @@ public class NovoUsuarioActivity extends AppCompatActivity {
         UsuarioDao usuarioDao = new UsuarioDao(this);
         Usuario usuario;
         usuario = usuarioDao.getByID(id);
-        txFrio.setText(String.valueOf(usuario.getFrio()));
-        txCalor.setText(String.valueOf(usuario.getCalor()));
-        txChuva.setText(String.valueOf(usuario.getChuva()));
+        tilNomeUsuario.getEditText().setText(usuario.getNome());
+        tilFrio.getEditText().setText(usuario.getFrio());
+        tilCalor.getEditText().setText(usuario.getCalor());
+        tilChuva.getEditText().setText(usuario.getChuva());
         id_usuarios.edit().putInt("ID", 0).apply();
     }
 

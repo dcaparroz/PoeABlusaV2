@@ -4,9 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import com.davidcs.poeablusa.model.Periodo;
-import com.davidcs.poeablusa.model.Temperatura;
 import com.davidcs.poeablusa.model.Usuario;
 
 import java.util.LinkedList;
@@ -40,6 +37,7 @@ public class UsuarioDao {
         long resultado;
         SQLiteDatabase db=banco.getWritableDatabase();
         ContentValues values =new ContentValues();
+        values.put("id",usuario.getId());
         values.put(COLUNA_NOME,usuario.getNome());
         values.put(COLUNA_FRIO,usuario.getFrio());
         values.put(COLUNA_CALOR,usuario.getCalor());
@@ -84,8 +82,8 @@ public class UsuarioDao {
 
     public Usuario getByID(int id){
         SQLiteDatabase db = banco.getReadableDatabase();
-        String rawQuery = "SELECT t.*, c.nome FROM " +
-                UsuarioDao.TABELA_USUARIO+" where t.id = " + id;
+        String rawQuery = "SELECT * FROM " +
+                UsuarioDao.TABELA_USUARIO+" where id = " + id;
         Cursor cursor = db.rawQuery(rawQuery, null);
         Usuario usuario = null;
         if (cursor.moveToFirst()) {

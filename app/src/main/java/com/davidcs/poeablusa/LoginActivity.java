@@ -9,6 +9,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.davidcs.poeablusa.dao.LoginDao;
+import com.davidcs.poeablusa.model.Login;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -42,13 +45,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean isLoginValido() {
+        LoginDao dao = new LoginDao(getApplicationContext());
         String login =etLogin.getText().toString();
         String senha =etSenha.getText().toString();
         if(login.equals("fiap")&&senha.equals("123")){
             return true;
         }else{
-            return false;
+            for(Login l:dao.getAll()){
+                if(login.equals(l.getNome()) && senha.equals(l.getSenha())){
+                return true;}}
         }
+        return false;
     }
 
     private void manterConectado() {

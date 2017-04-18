@@ -6,15 +6,12 @@ package com.davidcs.poeablusa.model;
 
 public class Usuario {
 
-    private int id;
-
+    private Integer id;
     private String nome;
-
-
     private String frio;
     private String calor;
     private String chuva;
-   // private String periodo;
+
 
     public String getFrio() {
         return frio;
@@ -40,19 +37,11 @@ public class Usuario {
         this.chuva = chuva;
     }
 
-//    public String getPeriodo() {
-//        return periodo;
-//    }
-
-//    public void setPeriodo(String periodo) {
-//        this.periodo = periodo;
-//    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -64,25 +53,7 @@ public class Usuario {
         this.nome = nome;
     }
 
-    /* public Temperatura temperatura;
 
-    public Periodo periodo;
-
-    public Periodo getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(Periodo periodo) {
-        this.periodo = periodo;
-    }
-
-    public Temperatura getTemperatura() {
-        return temperatura;
-    }
-
-    public void setTemperatura(Temperatura temperatura) {
-        this.temperatura = temperatura;
-    }*/
 }
 
 
